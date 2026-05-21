@@ -1,0 +1,23 @@
+name: Notify site
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger site deploy
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.SITE_REPO_DISPATCH_TOKEN }}
+          repository: uvu1/uvu1.me
+          event-type: articles-updated
+          client-payload: |
+            {
+              "articles_sha": "${{ github.sha }}"
+            }
