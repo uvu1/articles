@@ -14,6 +14,7 @@ E,Fは挑戦すらしてないので書いてないです。
 # A - 16:9
 解くだけ、といってはあれですが…
 x:y = 16:9なので、x\*9 = y \*16が成り立てば良いですね。
+
 ```cpp
 #include <atcoder/all>
 #include <bits/stdc++.h>
@@ -40,6 +41,7 @@ int main() {
   return 0;
 }
 ```
+
 
 # B - Train Reservation
 全ての列車のx列がoになっているかを判定すればいいです。
@@ -94,3 +96,8 @@ if (v[i][S - 'A'] == 'o') {
 ```
 ってことらしい
 # C - Tallest at the Moment
+クエリ時刻`q + 0.5`に残っている人の身長最大値を求める問題です。
+
+
+```cpp
+```
