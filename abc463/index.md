@@ -96,7 +96,7 @@ if (v[i][S - 'A'] == 'o') {
 ```
 ってことらしい
 # C - Tallest at the Moment
-クエリ時刻`q + 0.5`に残っている人の身長最大値を求める問題です。
+`q + 0.5`に残っている人、すなわち`L > q`を満たす人の身長最大値を求める問題です。
 
 純粋に全探索する場合、クエリ時刻以降に残っている人を毎回探索し最悪計算量はO(NQ)となります。
 ```cpp
@@ -105,7 +105,7 @@ for (int i = index; i < N; i++) {
   ans = max(ans, H[i]);
 }
 ```
-そこで、入力{H, L}を[{L, H}]として持ち、n番目以降の身長の最大値を要素に持つ配列を作っておき、最初に`L > q`となる最初の要素のindexを求めることでO(log N)で求めることができます。
+そこで、n番目以降の身長の最大値を要素に持つ配列を作っておき、最初に`L > q`となる最初の要素のindexを二分探索で求めることで1ループ`O(log N)`で求めることができます。
 例えば、
 ```
 L: 4 5 5 9
@@ -118,5 +118,52 @@ suffix_max = {31, 26, 15, 15}
 という配列を作っておきます。
 
 そして、`q = 4`という入力を受け取ったときを考えます。
-この時、欲しいのは最初に`L > q`を満たす要素の場所です。
+この時最初に`L > q`を満たす要素は`5`で、その位置は`1`です。
+`suffix_max[1] = 26`ですので、出力する答えは`26`になります。
+これを実装すればいいです。
 
+```cpp
+#include <atcoder/all>
+#include <bits/stdc++.h>
+using namespace std;
+using namespace atcoder;
+
+#define rep(i, n) for (int i = 0; i < (int)(n); i++)
+#define all(x) (x).begin(), (x).end()
+
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+
+  int N;
+  cin >> N;
+
+  vector<pair<int, int>> v(N); // {L, H}
+
+  for (pair<int, int> &n : v) {
+    cin >> n.second >> n.first;
+  }
+
+  vector<int> seconds(N);
+  vector<int> suffix_max(N);
+
+  rep(i, N) { seconds[i] = v[i].first; }
+
+  suffix_max[N - 1] = v[N - 1].second;
+
+  for (int i = N - 2; i >= 0; i--) {
+    suffix_max[i] = max(suffix_max[i + 1], v[i].second);
+  }
+
+  int Q;
+  cin >> Q;
+
+  rep(_, Q) {
+    int q;
+    cin >> q;
+
+    int index = upper_bound(all(seconds), q) - seconds.begin();
+    cout << suffix_max[index] << endl;
+  }
+}
+```
