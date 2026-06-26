@@ -41,3 +41,47 @@ int main() {
 ```
 
 # B - Train Reservation
+全ての列車のx列がoになっているかを判定すればいいです。
+```cpp
+#include <atcoder/all>
+#include <bits/stdc++.h>
+using namespace std;
+using namespace atcoder;
+
+using ll = long long;
+
+#define rep(i, n) for (int i = 0; i < (int)(n); i++)
+#define all(x) (x).begin(), (x).end()
+
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+
+  int N;
+  char S;
+  cin >> N >> S;
+  vector<string> v(N);
+  for (string &x : v) {
+    cin >> x;
+  }
+
+  map<char, int> m;
+  m['A'] = 0;
+  m['B'] = 1;
+  m['C'] = 2;
+  m['D'] = 3;
+  m['E'] = 4;
+
+  rep(i, N) {
+    if (v[i][m[S]] == 'o') {
+      cout << "Yes" << endl;
+      return 0;
+    }
+  }
+  cout << "No" << endl;
+
+  return 0;
+}
+```
+
+解説を見ると計算でx列を求めているみたいです。
