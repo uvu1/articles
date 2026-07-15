@@ -61,4 +61,61 @@ int main() {
 
 つまり、`#`が存在する最も上の行と下の行、左の列と右の列を調べその範囲を出力することで解くことが出来ると考えました。
 
-つまり、上下左右を二重ループで全探索し、
+実装としては、上下左右を二重ループで全探索し、
+- 一番上の`#`
+- 一番右の`#`
+- 一番左の`#`
+- 一番下の`#`
+の位置をそれぞれ見つければよいです。
+
+```cpp
+#include <atcoder/all>
+#include <bits/stdc++.h>
+using namespace std;
+using namespace atcoder;
+
+using ll = long long;
+
+#define rep(i, n) for (int i = 0; i < (int)(n); i++)
+#define all(x) (x).begin(), (x).end()
+
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+
+  int H, W;
+  cin >> H >> W;
+  vector<string> C(H);
+  for (string &x : C) {
+    cin >> x;
+  }
+
+  int t = H;
+  int l = W;
+  int r = -1;
+  int b = -1;
+
+  rep(i, H) {
+    rep(j, W) {
+      if (C[i][j] == '#') {
+        t = min(t, i);
+        l = min(l, j);
+        r = max(r, j);
+        b = max(b, i);
+      }
+    }
+  }
+
+  for (int i = t; i <= b; i++) {
+    for (int j = l; j <= r; j++) {
+      cout << C[i][j];
+    }
+    cout << endl;
+  }
+
+  return 0;
+}
+
+```
+
+# C - 
