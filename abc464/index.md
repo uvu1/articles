@@ -118,4 +118,5 @@ int main() {
 
 ```
 
-# C - 
+# C - Plumage Palette
+C問題以降は、A,B問題と異なり少し工夫しないと
