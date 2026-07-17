@@ -218,3 +218,84 @@ DPを実装をする時の考え方も残しておきます。
 dpS = i日目を晴れにしたときの嬉しさの最大値
 dpR = i日目を雨にしたときの嬉しさの最大値
 ```
+1日目は特殊な処理が必要です。
+## 元の天気が`S`の場合
+```cpp
+dpS = 0; // 1日目をSにする = 変更なし = コストなし
+dpR = -X[0]; // 1日目をRにする = 変更あり = X_1のコストがかかる
+```
+## 元の天気が`R`の場合
+```cpp
+dpS = 0; // 1日目をSにする = 変更あり = X_1のコストがかかる
+dpR = -X[0]; // 1日目をRにする = 変更なし = コストなし
+```
+
+2日目以降は次のように考えられます。
+## `i`日目を晴れにする場合
+### `i-1`日目が`S`だった場合
+`S -> S`なので追加の嬉しさは発生しません。候補は`dpS`です。
+### `i-1`日目が`R`だった場合
+`R -> S`なので嬉しさ`Y_i-1`を獲得します。なので、候補は`dpR + Y[i-1]`です。
+
+この2点を統合し、`nextS = max(dpS, dpR + Y[i-1])`となります。
+また、`i`日目が元々`R`だった場合、変更コストがかかるので`nextS -= X[i]`とします。
+## `i`日目を雨にする場合
+`i-1`日目が`S`, `R`どちらの場合でも追加の嬉しさは発生しません。
+従って、`nextR = max(dpS, dpR)`です。
+また、`i`日目が元々`S`だった場合、変更コストがかかるので`nextR -= X[i]`とします。
+
+提出したコードは
+```cpp
+#include <atcoder/all>
+#include <bits/stdc++.h>
+using namespace std;
+using namespace atcoder;
+
+using ll = long long;
+
+#define rep(i, n) for (int i = 0; i < (int)(n); i++)
+#define all(x) (x).begin(), (x).end()
+
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+
+  int T;
+  cin >> T;
+
+  while (T--) {
+    int N;
+    string S;
+    cin >> N >> S;
+
+    vector<ll> X(N);
+    vector<ll> Y(N - 1);
+
+    for (ll &x : X)
+      cin >> x;
+    for (ll &y : Y)
+      cin >> y;
+
+    auto cs = [&](int i) { return S[i] == 'S' ? 0LL : X[i]; };
+    auto cr = [&](int i) { return S[i] == 'R' ? 0LL : X[i]; };
+
+    ll dp_s = -cs(0);
+    ll dp_r = -cr(0);
+
+    for (int i = 1; i < N; i++) {
+      ll ns = max(dp_s, dp_r + Y[i - 1]) - cs(i);
+      ll nr = max(dp_s, dp_r) - cr(i);
+
+      dp_s = ns;
+      dp_r = nr;
+    }
+
+    cout << max(dp_s, dp_r) << endl;
+  }
+
+  return 0;
+}
+```
+です。
+
+# 
