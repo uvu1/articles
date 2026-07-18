@@ -4,6 +4,8 @@ date: 2026-07-01
 draft: false
 pin: false
 tags:
+  - atcoder
+  - abc
 ---
 # 2回目です
 ~~1週間遅れくらいなんですけどabc464の参加記事です。~~
