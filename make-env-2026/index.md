@@ -4,5 +4,6 @@ date: 2026-07-17
 draft: true
 pin: false
 tags:
+  - tech
 ---
 こんにちは。
