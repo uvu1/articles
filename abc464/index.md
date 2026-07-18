@@ -1,7 +1,7 @@
 ---
 title: ABC464 参加記
 date: 2026-07-01
-draft: true
+draft: false
 pin: false
 tags:
 ---
